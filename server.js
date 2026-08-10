@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const { askAI } = require("./services/ai");
+const { routeAI } = require("./services/aiRouter");
 const pluginManager = require("./services/plugins/pluginManager");
 
 const app = express();
@@ -95,7 +95,7 @@ app.post("/chat", async (req, res) => {
 
         }
 
-        const reply = await askAI(message);
+        const reply = await routeAI(message);
 
         return res.json({
             success: true,

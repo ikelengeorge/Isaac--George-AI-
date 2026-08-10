@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Isaac George AI — AI assistant, website intelligence and digital tools."
+    >
+
+    <title>Isaac George AI</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+
+            <div class="brand-logo">
+                IG
+            </div>
+
+            <div class="brand-text">
+
+                <strong>Isaac George AI</strong>
+
+                <span>Intelligence Platform</span>
+
+            </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#chat">AI Chat</a>
+            <a href="#tools">Tools</a>
+            <a href="#scanner">Scanner</a>
+
+        </nav>
+
+
+        <div id="status" class="status">
+            Checking...
+        </div>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    🤖 Isaac George AI
+                </div>
+
+                <h1>
+                    Your AI.
+                    <span>Your Intelligence.</span>
+                </h1>
+
+                <p>
+                    Chat with Isaac, analyze websites, use intelligent
+                    tools and build your digital workflow from one platform.
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a href="#chat" class="button primary">
+                        Start Chatting
+                    </a>
+
+                    <a href="#tools" class="button secondary">
+                        Explore Tools
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- CHAT -->
+
+        <section id="chat" class="section">
+
+            <div class="section-heading">
+
+                <span>01</span>
+
+                <div>
+                    <h2>Talk to Isaac</h2>
+
+                    <p>
+                        Your AI assistant interface.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="chat-card">
+
+                <div id="chatMessages" class="messages">
+
+                    <div class="message assistant">
+
+                        <div class="message-label">
+                            ISAAC
+                        </div>
+
+                        Hello 👋 I'm Isaac George AI.
+                        How can I help you today?
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-input">
+
+                    <input
+                        id="chatInput"
+                        type="text"
+                        placeholder="Ask Isaac anything..."
+                    >
+
+                    <button onclick="sendMessage()">
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- TOOLS -->
+
+        <section id="tools" class="section">
+
+            <div class="section-heading">
+
+                <span>02</span>
+
+                <div>
+
+                    <h2>Intelligent Tools</h2>
+
+                    <p>
+                        Powerful capabilities connected to Isaac's
+                        plugin architecture.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="tools-grid" id="plugins">
+
+                Loading Isaac plugins...
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SCANNER -->
+
+        <section id="scanner" class="section">
+
+            <div class="section-heading">
+
+                <span>03</span>
+
+                <div>
+
+                    <h2>Website Intelligence</h2>
+
+                    <p>
+                        Analyze websites with Isaac's security,
+                        SSL and technology scanner.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="scanner-card">
+
+                <div class="scanner-input">
+
+                    <input
+                        id="scanInput"
+                        type="text"
+                        placeholder="Enter a website, e.g. example.com"
+                    >
+
+                    <button onclick="scanWebsite()">
+                        🔍 Scan
+                    </button>
+
+                </div>
+
+
+                <div id="scanResult" class="scan-result">
+
+                    Enter a website above to begin.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <footer>
+
+        <div>
+
+            <strong>Isaac George AI</strong>
+
+            <p>
+                AI • Intelligence • Digital Tools
+            </p>
+
+        </div>
+
+
+        <div class="footer-right">
+
+            <span>Web Platform v1.0.0</span>
+
+            <span id="footerStatus">
+                Backend checking...
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="/app.js"></script>
+
+</body>
+
+</html>

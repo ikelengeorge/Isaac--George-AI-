@@ -1,0 +1,68 @@
+# Environment secrets
+.env
+.env*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+temp/
+.tmp/
+
+# Generated/media files
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+
+# Backups
+*.backup
+*.bak
+server.*.js
+
+# Termux/runtime files
+watchdog.log
+
+# WhatsApp/session data
+auth/
+
+# Local application data
+database/*.json
+database/backup.json
+
+# Development backups and old versions
+plugins.backup-before-scanner/
+*.backup
+*.bak
+*.before-*
+*.v2-*
+*.v3-*
+*.v4-*
+*.v5-*
+*.v6-*
+*.working.js
+*.stable.js
+*.safe.js
+*.final.js
+*~
+
+# Old plugin versions/backups
+plugins.backup-before-scanner/
+plugins/*.backup*.js
+plugins/*.before-*.js
+plugins/*.v2-*.js
+plugins/*.v3-*.js
+plugins/*.v4-*.js
+plugins/*.v5-*.js
+plugins/*.v6-*.js
+plugins/*.working*.js
+plugins/*.stable*.js
+plugins/*.safe*.js
+plugins/*.final*.js
+plugins/*~

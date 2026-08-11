@@ -4,7 +4,7 @@ require("dotenv").config();
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 async function askAI(message) {
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = String(process.env.GROQ_API_KEY || "").trim();
 
     if (!apiKey) {
         return "🤖 Isaac George AI\n\nGroq API key is not configured.";
@@ -14,7 +14,7 @@ async function askAI(message) {
         const response = await axios.post(
             GROQ_URL,
             {
-                model: "llama-3.1-8b-instant",
+                model: "llama-3.3-70b-versatile",
                 messages: [
                     {
                         role: "system",
@@ -34,7 +34,7 @@ async function askAI(message) {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${apiKey}`
                 },
-                timeout: 12000
+                timeout: 30000
             }
         );
 
@@ -45,7 +45,7 @@ async function askAI(message) {
 
     } catch (error) {
         console.error(
-            "❌ Groq API error:",
+            "❌ Groq error:",
             error.response?.data || error.message
         );
 
@@ -53,6 +53,4 @@ async function askAI(message) {
     }
 }
 
-module.exports = {
-    askAI
-};
+module.exports = { askAI };

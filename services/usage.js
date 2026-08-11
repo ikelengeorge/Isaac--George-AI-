@@ -27,6 +27,14 @@ async function checkLimit(userId){
     }
 
 
+    if(user.role === "superadmin" || user.unlimited === true){
+        return {
+            allowed: true,
+            unlimited: true,
+            remaining: "Unlimited"
+        };
+    }
+
     if(user.usage >= user.dailyLimit){
 
         return {

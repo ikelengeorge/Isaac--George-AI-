@@ -13,6 +13,10 @@ async function routeAI(message) {
 
     const lower = text.toLowerCase();
 
+if (lower.includes("news")) {
+    return "📰 Current news service is being connected.";
+}
+
     /*
     |--------------------------------------------------------------------------
     | WEATHER

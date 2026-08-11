@@ -1,4 +1,7 @@
 const express = require("express");
+const multer = require("multer");
+require("dotenv").config();
+const axios = require("axios");
 const path = require("path");
 
 const { routeAI } = require("./services/aiRouter");
@@ -78,6 +81,49 @@ app.get("/health", (req, res) => {
 // CHAT API
 // ==============================
 
+
+// ==============================
+// AUDIO / SPEECH-TO-TEXT API
+// ==============================
+
+const { speechToText } = require("./services/audio.js");
+
+const uploadAudio = multer({
+    storage: multer.diskStorage({
+        destination: "uploads/audio/",
+        filename: (req, file, cb) => {
+            const ext = require("path").extname(file.originalname) || ".wav";
+            cb(null, Date.now() + ext);
+        }
+    })
+});
+
+app.post("/audio", uploadAudio.single("audio"), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                error: "Audio file is required"
+            });
+        }
+
+        const text = await speechToText(req.file.path);
+
+        return res.json({
+            success: true,
+            text
+        });
+
+    } catch (error) {
+        console.error("Audio error:", error);
+
+        return res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 app.post("/chat", async (req, res) => {
 
     try {
@@ -95,7 +141,26 @@ app.post("/chat", async (req, res) => {
 
         }
 
-        const reply = await routeAI(message);
+        // MEDIA COMMANDS
+    const media = {
+        ".nano": "image/edit",
+        ".pixai": "image/generate",
+        ".videofx": "video/edit",
+        ".videogen": "video/generate"
+    };
+
+    const cmd = Object.keys(media).find(c => message.startsWith(c + " "));
+    if (cmd) {
+        return res.json({
+            success: true,
+            command: cmd,
+            action: media[cmd],
+            prompt: message.slice(cmd.length).trim(),
+            status: "ready"
+        });
+    }
+
+    const reply = await routeAI(message);
 
         return res.json({
             success: true,
@@ -125,10 +190,8 @@ app.post("/chat", async (req, res) => {
 
 // IMAGE GENERATION
 app.post("/api/ai/image/generate", async (req, res) => {
-
     try {
-
-        const { prompt } = req.body;
+        const prompt = String(req.body?.prompt || req.body?.message || "").trim();
 
         if (!prompt) {
             return res.status(400).json({
@@ -137,28 +200,46 @@ app.post("/api/ai/image/generate", async (req, res) => {
             });
         }
 
+        const key = process.env.JOURNEY_API_KEY;
+
+        if (!key) {
+            return res.status(500).json({
+                success: false,
+                error: "JourneyAPI key is not configured"
+            });
+        }
+
+        const response = await axios.post(
+            "https://api.journeyapi.co/v1/imagine",
+            { prompt },
+            {
+                headers: {
+                    Authorization: `Bearer ${key}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
         return res.json({
-            success: false,
-            type: "image-generation",
-            message: "Image generation API is ready but no provider is connected yet.",
-            prompt: prompt
+            success: true,
+            command: ".pixai",
+            provider: "JourneyAPI",
+            result: response.data
         });
 
     } catch (error) {
-
-        console.error("❌ Image generation error:", error);
+        console.error(
+            "❌ PixAI error:",
+            error.response?.data || error.message
+        );
 
         return res.status(500).json({
             success: false,
-            error: "Image generation API error"
+            error: "Image generation failed"
         });
-
     }
-
 });
 
-
-// IMAGE EDITING
 app.post("/api/ai/image/edit", async (req, res) => {
 
     try {
@@ -279,3 +360,4 @@ app.listen(PORT, "0.0.0.0", () => {
     console.log("");
 
 });
+setInterval(() => {}, 1000);

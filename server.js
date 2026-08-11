@@ -88,14 +88,10 @@ app.get("/health", (req, res) => {
 
 const { speechToText } = require("./services/audio.js");
 
+// Vercel/serverless-safe audio upload
+// Keep audio in memory instead of writing to uploads/audio/
 const uploadAudio = multer({
-    storage: multer.diskStorage({
-        destination: "uploads/audio/",
-        filename: (req, file, cb) => {
-            const ext = require("path").extname(file.originalname) || ".wav";
-            cb(null, Date.now() + ext);
-        }
-    })
+    storage: multer.memoryStorage()
 });
 
 app.post("/audio", uploadAudio.single("audio"), async (req, res) => {
@@ -107,7 +103,7 @@ app.post("/audio", uploadAudio.single("audio"), async (req, res) => {
             });
         }
 
-        const text = await speechToText(req.file.path);
+        const text = await speechToText(req.file.buffer, req.file.originalname);
 
         return res.json({
             success: true,

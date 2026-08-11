@@ -347,17 +347,18 @@ app.post("/api/ai/video/edit", async (req, res) => {
 // START SERVER
 // ==============================
 
-app.listen(PORT, "0.0.0.0", () => {
+if (require.main === module) {
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log("");
+        console.log("=================================");
+        console.log("🤖 ISAAC GEORGE AI WEB SERVER");
+        console.log("=================================");
+        console.log(`🌐 Port: ${PORT}`);
+        console.log("🔌 Plugin system: enabled");
+        console.log("📡 API: enabled");
+        console.log("=================================");
+        console.log("");
+    });
+}
 
-    console.log("");
-    console.log("=================================");
-    console.log("🤖 ISAAC GEORGE AI WEB SERVER");
-    console.log("=================================");
-    console.log(`🌐 Port: ${PORT}`);
-    console.log("🔌 Plugin system: enabled");
-    console.log("📡 API: enabled");
-    console.log("=================================");
-    console.log("");
-
-});
-setInterval(() => {}, 1000);
+module.exports = app;

@@ -13,6 +13,12 @@ class PluginManager {
 
         this.disabled = new Set();
 
+        // Detect serverless environments such as Vercel
+        this.isServerless = Boolean(
+            process.env.VERCEL ||
+            process.env.AWS_LAMBDA_FUNCTION_NAME
+        );
+
         // Persistent plugin state file
         this.stateFile = path.join(
             __dirname,
@@ -32,6 +38,12 @@ class PluginManager {
     loadState() {
 
         try {
+
+            // Vercel/serverless filesystem is not persistent
+            if (this.isServerless) {
+                this.disabled = new Set();
+                return;
+            }
 
             if (!fs.existsSync(this.stateFile)) {
 
@@ -74,6 +86,11 @@ class PluginManager {
     */
 
     saveState() {
+
+        // Do not write plugin state on Vercel/serverless
+        if (this.isServerless) {
+            return;
+        }
 
         try {
 
